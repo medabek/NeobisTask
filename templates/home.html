@@ -13,7 +13,7 @@
           <th>Course</th>
           <th>Category</th>
           <th>Branch</th>
-          <th>Conacts</th>
+          <th>Contacts</th>
         </tr>
       </thead>
       <tbody>
@@ -24,12 +24,12 @@
               <small style="color: #888">{{ cour.description }}</small>
             </td>
             <td>
-                {{ cour.category }}
+                {{ cour.category.name }}
             </td>
             <td>
-                {{ cour.branches }}
+                {{ cour.branches.address }}
             </td>
-            <td>{{ cour.contacts }}
+            <td>{{ cour.contacts.value }}
             </td>
           </tr>
         {% endfor %}
