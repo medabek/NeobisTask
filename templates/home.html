@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Courses</title>
+  </head>
+  <body>
+    <h1>Courses</h1>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Category</th>
+          <th>Branch</th>
+          <th>Conacts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cour in course %}
+          <tr>
+            <td>
+              {{ cour.name }}<br>
+              <small style="color: #888">{{ cour.description }}</small>
+            </td>
+            <td>
+                {{ cour.category }}
+            </td>
+            <td>
+                {{ cour.branches }}
+            </td>
+            <td>{{ cour.contacts }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
