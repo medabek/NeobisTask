@@ -28,6 +28,8 @@ class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
+
+
 # #@api_view(['GET', 'POST'])
 # #def course_list(request, format=None):
 #     """
