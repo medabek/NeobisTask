@@ -2,14 +2,16 @@ from rest_framework import serializers, models
 from course.models import Course, Category, Branch, Contact
 
 class ContactSerializers(serializers.ModelSerializer):
+    contact_choice = serializers.SerializerMethodField()
     class Meta:
         model = Contact
         fields = ('contact_choice', 'value')
 
+    def get_contact_choice(self, obj):
+        return obj.get_contact_choice_display()
+
 class BranchSerializer(serializers.ModelSerializer):
-    latitude = serializers.CharField(required=False, allow_blank=True, max_length=300)
-    longitude = serializers.CharField(required=False, allow_blank=True, max_length=300)
-    address = serializers.CharField(required=False, allow_blank=True, max_length=300)
+
     class Meta:
         model = Branch
         fields = ('latitude', 'longitude', 'address')
@@ -20,7 +22,7 @@ class CategorySerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('name', 'imgpath')
+        fields = ('name',)
 
 class CourseSerializer(serializers.ModelSerializer):
 
@@ -28,15 +30,30 @@ class CourseSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=False, allow_blank=True, max_length=200)
     description = serializers.CharField(required=False, allow_blank=True, max_length=1500)
     logo = serializers.CharField(required=False, allow_blank=True, max_length=250)
-    category = CategorySerializers(read_only=True)
+    category = CategorySerializers(Category)
     #category = serializers.CharField(required=False, allow_blank=True, max_length=250)
-    contacts = ContactSerializers(read_only=True)
-    branches = BranchSerializer(read_only=True)
+    contacts = serializers.SerializerMethodField("get_contact")
+    branches = serializers.SerializerMethodField("get_branch")
 
     class Meta:
         model = Course
         fields = ('id', "name", "description", "logo", "category", "contacts", "branches")
 
+
+    @staticmethod
+    def get_contact(self):
+        contacts = ContactSerializers(Contact.objects.all(), many=True)
+        return  contacts.data
+
+    @staticmethod
+    def get_branch(self):
+        branches = BranchSerializer(Branch.objects.all(), many=True)
+        return branches.data
+
+    @staticmethod
+    def get_category_name(self):
+        category = CategorySerializers(Category.name, read_only=True)
+        return category.__getitem__('name')
 
     def create(self, validated_data):
         """
