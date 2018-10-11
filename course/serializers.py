@@ -22,7 +22,7 @@ class CategorySerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('name',)
+        fields = ('name', 'imgpath')
 
 class CourseSerializer(serializers.ModelSerializer):
 
