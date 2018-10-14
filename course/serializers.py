@@ -2,23 +2,29 @@ from rest_framework import serializers, models
 from course.models import Course, Category, Branch, Contact
 
 class ContactSerializers(serializers.ModelSerializer):
-    contact_choice = serializers.SerializerMethodField()
+    contact_choice = serializers.CharField(read_only=True)
+    value = serializers.CharField(read_only=True)
     class Meta:
         model = Contact
-        fields = ('contact_choice', 'value')
+        fields = ('contact_choice', 'value',)
 
-    def get_contact_choice(self, obj):
-        return obj.get_contact_choice_display()
+
+
+
 
 class BranchSerializer(serializers.ModelSerializer):
-
+    latitude = serializers.ReadOnlyField(read_only=True)
+    longitude = serializers.ReadOnlyField(read_only=True)
+    address = serializers.ReadOnlyField(read_only=True)
     class Meta:
         model = Branch
-        fields = ('latitude', 'longitude', 'address')
+        fields = ('latitude', 'longitude', 'address',)
+
 
 
 class CategorySerializers(serializers.ModelSerializer):
-    #name = serializers.CharField(required=False, allow_blank=True, max_length=250)
+    # name = serializers.CharField(required=False, allow_blank=True, max_length=250)
+    name = serializers.ReadOnlyField(read_only=True)
 
     class Meta:
         model = Category
@@ -26,13 +32,15 @@ class CategorySerializers(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
 
+    category = serializers.CharField(source="category.name")
+
+
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(required=False, allow_blank=True, max_length=200)
     description = serializers.CharField(required=False, allow_blank=True, max_length=1500)
     logo = serializers.CharField(required=False, allow_blank=True, max_length=250)
-    category = CategorySerializers(Category)
-    #category = serializers.CharField(required=False, allow_blank=True, max_length=250)
-    contacts = serializers.SerializerMethodField("get_contact")
+    #category = CategorySerializers(Category, required=False)
+    contacts = serializers.SerializerMethodField("get_contact")#StringRelatedField( many=True)
     branches = serializers.SerializerMethodField("get_branch")
 
     class Meta:
@@ -42,18 +50,21 @@ class CourseSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_contact(self):
-        contacts = ContactSerializers(Contact.objects.all(), many=True)
-        return  contacts.data
+        contacts = ContactSerializers(Contact.objects.all(), many=True, read_only=True, required=False,)
+        return contacts.data
+
+    # def get_contact_choice(self, obj):
+    #     return obj.get_contact_choice_display()
 
     @staticmethod
     def get_branch(self):
-        branches = BranchSerializer(Branch.objects.all(), many=True)
+        branches = BranchSerializer(Branch.objects.all(), many=True, required=False,)
         return branches.data
 
     @staticmethod
     def get_category_name(self):
-        category = CategorySerializers(Category.name, read_only=True)
-        return category.__getitem__('name')
+        category = CategorySerializers(Category)
+        return category
 
     def create(self, validated_data):
         """
