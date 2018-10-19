@@ -18,52 +18,52 @@ def home(request):
 
 
 
-#
-# class CourseList(generics.ListCreateAPIView):
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
-#     def get_queryset(self):
-#         return Course.objects.all()
-#
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-#
-#     def post(self, request, *args, **kwargs):
-#         return self.create(request, *args, **kwargs)
-#
-#     # def post(self, request):
-#     #     Course.objects.create(
-#     #         name=request.POST.get('name'),
-#     #         description=request.POST.get('description'),
-#     #         logo = request.POST.get('logo'))
-#
-#
-#     def put(self, request, *args, **kwargs):
-#         return self.update(request, *args, **kwargs)
-#
-#     # def patch(self, request, *args, **kwargs):
-#     #     return self.update(request, *args, **kwargs)
-#
-#
-# class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Course.objects.all()
-#     serializer_class = CourseSerializer
+
+class CourseList(generics.ListCreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    def get_queryset(self):
+        return Course.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    # def post(self, request):
+    #     Course.objects.create(
+    #         name=request.POST.get('name'),
+    #         description=request.POST.get('description'),
+    #         logo = request.POST.get('logo'))
+
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    # def patch(self, request, *args, **kwargs):
+    #     return self.update(request, *args, **kwargs)
+
+
+class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
 
 #
 
-@api_view(['GET', 'POST'])
-def course_list(request, format=None):
-    if request.method == 'GET':
-        course = Course.objects.all()
-        serializer = CourseSerializer(course, many=True, read_only=True)
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
-        serializer = CourseSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['GET', 'POST'])
+# def course_list(request, format=None):
+#     if request.method == 'GET':
+#         course = Course.objects.all()
+#         serializer = CourseSerializer(course, many=True, read_only=True)
+#         return Response(serializer.data)
+#
+#     elif request.method == 'POST':
+#         serializer = CourseSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # # class CourseList(APIView):
 # #     """
@@ -80,30 +80,30 @@ def course_list(request, format=None):
 # #             serializer.save()
 # #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 # #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def course_detail(request, pk, format=None):
-
-    try:
-        course = Course.objects.get(pk=pk)
-    except Course.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = CourseSerializer(course)
-        return Response(serializer.data)
-
-    elif request.method == 'PUT':
-        serializer = CourseSerializer(course, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        course.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 #
+# @api_view(['GET', 'PUT', 'DELETE'])
+# def course_detail(request, pk, format=None):
+#
+#     try:
+#         course = Course.objects.get(pk=pk)
+#     except Course.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+#
+#     if request.method == 'GET':
+#         serializer = CourseSerializer(course)
+#         return Response(serializer.data)
+#
+#     elif request.method == 'PUT':
+#         serializer = CourseSerializer(course, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#     elif request.method == 'DELETE':
+#         course.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+# #
 # # class CourseDetail(APIView):
 # #     """
 # #     Retrieve, update or delete a snippet instance.
@@ -144,3 +144,8 @@ class ContactView(viewsets.ModelViewSet):
 class BranchView(viewsets.ModelViewSet):
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
+
+
+class CourseView(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer

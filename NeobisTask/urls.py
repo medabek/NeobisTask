@@ -24,8 +24,8 @@ from course import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^admin/', admin.site.urls),
-    url(r'^course/$', views.course_list),
-    url(r'^course/(?P<pk>[0-9]+)/$', views.course_detail),
+    url(r'^course/$', views.CourseList.as_view()),
+    url(r'^course/(?P<pk>[0-9]+)/$', views.CourseDetail.as_view()),
 
 ]
 
