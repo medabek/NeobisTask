@@ -77,46 +77,46 @@ class CourseSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
-        # instance.name = validated_data.get('name', instance.name)
-        # instance.description = validated_data.get('description', instance.description)
-        # instance.category = validated_data.get('category', instance.category)
-        # instance.logo = validated_data.get('logo', instance.logo)
-        # instance.contacts = validated_data.get('contacts', instance.contacts)
-        # instance.branches = validated_data.get('branches', instance.branches)
-        # instance.save()
-        # return instance
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
+        instance.category = validated_data.get('category', instance.category)
         instance.logo = validated_data.get('logo', instance.logo)
-        instance.save()
-
-        courses = validated_data.get('courses')
-        for cours in courses:
-            inv_item = Course.objects.get(category=instance, pk=id)
-            inv_item.name = cours.get('name', inv_item.name)
-            inv_item.description = cours.get('imgpath', inv_item.imgpath)
-            inv_item.course = instance
-            inv_item.save()
-
-        contacts = validated_data.get('contacts')
-        for con in contacts:
-            inv_item = Contact.objects.get(contacts=instance, pk=id)
-            inv_item.contact_choice = con.get('contact_choice', inv_item.contact_choice)
-            inv_item.value = cat.get('value', inv_item.value)
-            inv_item.course = instance
-            inv_item.save()
-
-        branches = validated_data.get('branches')
-        for bran in branches:
-            inv_item = Branch.objects.get(branches=instance, pk=id)
-            inv_item.latitude = bran.get('latitude', inv_item.latitude)
-            inv_item.longitude = bran.get('longitude', inv_item.longitude)
-            inv_item.address = bran.get('address', inv_item.address)
-            inv_item.course = instance
-            inv_item.save()
-
+        instance.contacts = validated_data.get('contacts', instance.contacts)
+        instance.branches = validated_data.get('branches', instance.branches)
         instance.save()
         return instance
+    #     instance.name = validated_data.get('name', instance.name)
+    #     instance.description = validated_data.get('description', instance.description)
+    #     instance.logo = validated_data.get('logo', instance.logo)
+    #     instance.save()
+    #
+    #     courses = validated_data.get('course')
+    #     for cours in courses:
+    #         inv_item = Course.objects.get(category=instance, pk=id)
+    #         inv_item.name = cours.get('name', inv_item.name)
+    #         inv_item.imgpath = cours.get('imgpath', inv_item.imgpath)
+    #         inv_item.course = instance
+    #         inv_item.save()
+    #
+    #     contacts = validated_data.get('contacts')
+    #     for con in contacts:
+    #         inv_item = Contact.objects.get(contacts=instance, pk=id)
+    #         inv_item.contact_choice = con.get('contact_choice', inv_item.contact_choice)
+    #         inv_item.value = con.get('value', inv_item.value)
+    #         inv_item.course = instance
+    #         inv_item.save()
+    #
+    #     branches = validated_data.get('branches')
+    #     for bran in branches:
+    #         inv_item = Branch.objects.get(branches=instance, pk=id)
+    #         inv_item.latitude = bran.get('latitude', inv_item.latitude)
+    #         inv_item.longitude = bran.get('longitude', inv_item.longitude)
+    #         inv_item.address = bran.get('address', inv_item.address)
+    #         inv_item.course = instance
+    #         inv_item.save()
+    #
+    #     instance.save()
+    #     return instance
 
 
 

@@ -23,8 +23,13 @@ class Course(models.Model):
     #     return self.name, self.description, self.logo, self.category
 
     def __str__(self):
+        return '%s' % self.name
 
+    def nm(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "courses"
 
     # class Meta:
     #     unique_together = ('name', 'category')
