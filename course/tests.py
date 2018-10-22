@@ -1,22 +1,32 @@
 
 from django.test import TestCase
 from django.shortcuts import get_object_or_404
-from .models import Course, Category
+from .models import Course, Category, Contact, Branch
 
 
 class CourseModelTest(TestCase):
 
+
     def test_string_representation(self):
-        course = Course(name="My entry title", description="it is a my live")
+        cat = Category('sci', 'loh')
+
+        cont = Contact()
+        cont.contact_choice = "PHONE"
+        cont.value = "5555"
+
+       # br = Branch('e32424','2343242','iaau.edu.kg')
+
+        course = Course(name="My entry title", description="it is a my live", logo="lj.kg", category=cat)
         self.assertEqual(str(course), course.name)
 
     def test_verbose_name_plural(self):
         self.assertEqual(str(Course._meta.verbose_name_plural), "courses")
-
-    def test_course_name_label(self):
-        course = Course.objects.filter(id=1)
-        name = course.__str__()
-        self.assertEquals(name, 'java')
+    #
+    # def test_course_name_label(self ):
+    #     course_id = 1
+    #     course = Course.objects.get(id=course_id)
+    #     name = str(course)
+    #     self.assertEquals(name, 'java')
 
 # class HomeTests(TestCase):
 #     def test_home_view_status_code(self):

@@ -18,14 +18,8 @@ class Course(models.Model):
     category = models.ForeignKey(Category, related_name='courses', null=True, on_delete=models.CASCADE)
     logo = models.CharField(max_length=1000)
 
-    #
-    # def __str__(self):
-    #     return self.name, self.description, self.logo, self.category
 
     def __str__(self):
-        return '%s' % self.name
-
-    def nm(self):
         return self.name
 
     class Meta:
