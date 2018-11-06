@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'NeobisTask.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('NAME'),
+        'NAME':config('NAME'),
         'USER': config('USER'),
         'PASSWORD': config('PASSWORD'),
         'HOST': config('HOST'),
